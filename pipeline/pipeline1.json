@@ -57,7 +57,13 @@
 				"inputs": [
 					{
 						"referenceName": "DelimitedText1",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"simple_d": {
+								"value": "@pipeline().parameters.week",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
