@@ -1,5 +1,5 @@
 {
-	"name": "copy with time",
+	"name": "copy date and time with file name",
 	"properties": {
 		"activities": [
 			{
@@ -44,8 +44,40 @@
 							"fileExtension": ".txt"
 						}
 					},
-					"enableStaging": false
-				}
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference",
+						"parameters": {
+							"sourcefile": {
+								"value": "@pipeline().parameters.Parametersource",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DelimitedText2",
+						"type": "DatasetReference",
+						"parameters": {
+							"dummy": {
+								"value": "@concat('Simplw','_',variables('timedummy'))",
+								"type": "Expression"
+							}
+						}
+					}
+				]
 			},
 			{
 				"name": "Set variable1",
@@ -57,7 +89,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "dummy",
+					"variableName": "timedummy",
 					"value": {
 						"value": "@utcNow()",
 						"type": "Expression"
@@ -65,8 +97,13 @@
 				}
 			}
 		],
+		"parameters": {
+			"Parametersource": {
+				"type": "string"
+			}
+		},
 		"variables": {
-			"dummy": {
+			"timedummy": {
 				"type": "String"
 			}
 		},
