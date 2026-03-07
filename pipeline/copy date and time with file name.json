@@ -44,40 +44,8 @@
 							"fileExtension": ".txt"
 						}
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "DelimitedText1",
-						"type": "DatasetReference",
-						"parameters": {
-							"sourcefile": {
-								"value": "@pipeline().parameters.Parametersource",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "DelimitedText2",
-						"type": "DatasetReference",
-						"parameters": {
-							"dummy": {
-								"value": "@concat('Simplw','_',variables('timedummy'))",
-								"type": "Expression"
-							}
-						}
-					}
-				]
+					"enableStaging": false
+				}
 			},
 			{
 				"name": "Set variable1",
