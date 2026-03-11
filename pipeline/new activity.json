@@ -97,7 +97,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DelimitedText4",
+									"referenceName": "DelimitedText6",
 									"type": "DatasetReference",
 									"parameters": {
 										"simple": {
@@ -109,7 +109,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DelimitedText5",
+									"referenceName": "DelimitedText7",
 									"type": "DatasetReference",
 									"parameters": {
 										"dummy": {
@@ -119,11 +119,101 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "Append variable1",
+							"type": "AppendVariable",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "vAppendVariable",
+								"value": {
+									"value": "@item().name",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Append variable1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "vCopiedfilelist",
+								"value": {
+									"value": "@{variables('vAppendVariable')}",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Delete1",
+							"type": "Delete",
+							"dependsOn": [
+								{
+									"activity": "Set variable1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "DelimitedText6",
+									"type": "DatasetReference",
+									"parameters": {
+										"simple": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
+								},
+								"enableLogging": false,
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								}
+							}
 						}
 					]
 				}
 			}
 		],
+		"variables": {
+			"vAppendVariable": {
+				"type": "Array"
+			},
+			"vCopiedfilelist": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
